@@ -7,7 +7,7 @@ const initialState = {
 }
 
 const initialState_Detail = {
-    gameDetail: {},
+    gameDetail: null,
 }
 
 const gamesReducer = (state = initialState, action) => {

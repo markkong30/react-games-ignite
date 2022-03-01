@@ -14,6 +14,7 @@ const GlobalStyle = createGlobalStyle`
         }
         &::-webkit-scrollbar-thumb {
             background-color: darkgrey;
+            border-radius: 5px;
         }
     }
 
