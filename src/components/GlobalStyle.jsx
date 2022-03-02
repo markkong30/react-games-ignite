@@ -5,7 +5,7 @@ const GlobalStyle = createGlobalStyle`
     * {
         margin: 0;
         padding: 0;
-        box-sizing: bord    er-box;
+        box-sizing: border-box;
     }
 
     html {
@@ -45,6 +45,16 @@ const GlobalStyle = createGlobalStyle`
         text-decoration: none;
         color: #333;
     }
+
+    img {
+        display: block;
+    }
+
+    input {
+        font-weight: bold;
+        font-family: "Montserrat", sans-serif;
+    }
+    
 `
 
 export default GlobalStyle;

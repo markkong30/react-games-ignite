@@ -4,10 +4,12 @@ const initialState = {
     popularGames: [],
     newGames: [],
     upcomingGames: [],
+    searchedGame: [],
 }
 
 const initialState_Detail = {
     gameDetail: null,
+    isLoading: true,
 }
 
 const gamesReducer = (state = initialState, action) => {
@@ -19,6 +21,16 @@ const gamesReducer = (state = initialState, action) => {
                 upcomingGames: action.payload.upcomingGames,
                 newGames: action.payload.newGames,
             }
+        case "FETCH_SEARCHED":
+            return {
+                ...state,
+                searchedGame: action.payload.searchedGame,
+            }
+        case "CLEAR_SEARCHED":
+            return {
+                ...state,
+                searchedGame: [],
+            }
         default:
             return { ...state }
     }
@@ -29,12 +41,20 @@ const detailReducer = (state = initialState_Detail, action) => {
         case "GET_DETAIL":
             return {
                 ...state,
-                gameDetail: action.payload.gameDetail
+                gameDetail: action.payload.gameDetail,
+                isLoading: false,
+            }
+        case "LOADING_DETAIL":
+            return {
+                ...state,
+                isLoading: true,
             }
         default:
             return { ...state }
     }
 }
+
+
 
 
 

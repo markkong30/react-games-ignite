@@ -2,25 +2,47 @@ import React, { useEffect } from 'react';
 import GameDetail from '../components/GameDetail';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { loadGames } from '../redux/actions';
+import { useParams } from 'react-router-dom';
 import Game from '../components/Game';
-import { upcomingGamesURL } from '../api';
+import { fadeIn } from '../animation';
 
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { popularGames, newGames, upcomingGames } = useSelector(state => state.games);
+    const params = useParams();
+    const { popularGames, newGames, upcomingGames, searchedGame } = useSelector(state => state.games);
 
     useEffect(() => {
         dispatch(loadGames());
-    }, [dispatch])
+        if (params.id) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
 
+        }
+    }, [dispatch, params])
 
 
     return (
-        <GameList>
-            <GameDetail />
+        <GameList variants={fadeIn} initial="hidden" animate="show">
+            <AnimatePresence>
+                {params.id && <GameDetail id={params.id} />}
+            </AnimatePresence>
+            {searchedGame.length > 0 &&
+                <div className="searched">
+                    <h2>Searched Games</h2>
+                    <Games>
+                        {searchedGame.map(game => (
+                            <Game key={game.id}
+                                name={game.name} released={game.released} id={game.id} img={game.background_image} screenshots={{ screenshots: game.short_screenshots }}
+                            />
+                        ))}
+                    </Games>
+                </div>
+            }
+
             <h2>Upcoming Games</h2>
             <Games>
                 {upcomingGames.map(game => (
