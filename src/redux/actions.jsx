@@ -22,7 +22,6 @@ export const loadDetail = (game_id, screenshots) => async (dispatch) => {
     })
 
     const detailData = await axios.get(gameDetailsURL(game_id));
-
     dispatch({
         type: "GET_DETAIL",
         payload: {

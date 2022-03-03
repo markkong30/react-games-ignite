@@ -24,8 +24,10 @@ const Game = (props) => {
     }
 
     return (
-        <StyledGame variants={popUp} initial="hidden" animate="show"
+        <StyledGame variants={popUp} initial="hidden" animate="show" whileHover="hover"
             layoutId={stringPathId}>
+
+
             <Link to={`/games/${id}`}>
                 <h3>{name}</h3>
                 <p>{released}</p>
@@ -41,6 +43,7 @@ const StyledGame = styled(motion.div)`
     text-align: center;
     border-radius: 10px;
     cursor: pointer;
+
 
     img {
         width: 100%;

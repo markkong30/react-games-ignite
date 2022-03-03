@@ -57,6 +57,30 @@ const GameDetail = (props) => {
         return stars;
     }
 
+    const getGenresColor = (genre) => {
+        switch (genre) {
+            case "Action":
+                return "#BB2D3E";
+            case "RPG":
+                return "#4FC52A";
+            case "Adventure":
+                return "#015CC5";
+            case "Shooter":
+                return "#FFCD3A";
+            case "Arcade":
+                return "#8955FF";
+            case "Puzzle":
+                return "#28ABE2";
+            default:
+                return "#5B5B5B";
+        }
+    }
+
+    const closeDetail = () => {
+        document.body.style.overflow = 'auto';
+        history.push('/');
+    }
+
 
     return (
         <>
@@ -74,8 +98,13 @@ const GameDetail = (props) => {
                                         ))}
                                     </span>
                                 </p>
-
+                                <div className='genres'>
+                                    {gameDetail.genres.map((genre, index) => (
+                                        <Genres key={index} color={getGenresColor(genre.name)}>{genre.name}</Genres>
+                                    ))}
+                                </div>
                             </div>
+
                             <Info>
                                 <h3>Platforms</h3>
                                 <Platforms>
@@ -103,6 +132,10 @@ const GameDetail = (props) => {
                                 }
                             })}
                         </div>
+
+                        <CloseButton>
+                            <p onClick={closeDetail}><i className="fa-solid fa-xmark"></i></p>
+                        </CloseButton>
                     </Detail>
                 </CardShadow>
             }
@@ -148,6 +181,22 @@ const Detail = styled(motion.div)`
         background-color: white;
     }
 
+    @media (max-width: 1000px) {
+        padding: 2rem;
+    }
+
+    @media (max-width: 700px) {
+        padding: 2rem;
+        left: 5%;
+        width: 90%;
+    }
+
+    @media (max-width: 500px) {
+        padding: 2rem;
+        left: 0;
+        width: 100%;
+    }
+
 `
 
 const Stats = styled(motion.div)`
@@ -171,9 +220,24 @@ const Stats = styled(motion.div)`
         line-height: 1;
 
     }
+
+    @media (max-width: 900px) {
+        display: block;
+    }
 `
-
-
+const Genres = styled.div`
+    display: inline-block;
+    margin: 1.5rem 0 0 0;
+    padding: 0.5rem 1rem;
+    background: ${props => props.color};
+    color: white;
+    &:first-child {
+        border-radius: 5px 0 0 5px;
+    }
+    &:last-child {
+        border-radius: 0 5px 5px 0;
+    }
+`
 
 const Info = styled(motion.div)`
     text-align: center;
@@ -185,6 +249,13 @@ const Platforms = styled(motion.div)`
     img {
         margin-left: 3rem;
     }
+
+    @media (max-width: 900px) {
+        img {
+        margin-left: 0;
+    }
+    }
+
 `
 const Media = styled(motion.div)`
     margin-top: 3rem;
@@ -194,12 +265,41 @@ const Media = styled(motion.div)`
         height: 60vh;
         object-fit: cover;
     }
+
+    @media (max-width: 800px) {
+        img {
+            height: 50vh;
+        }
+    }
+
+    @media (max-width: 650px) {
+        img {
+            height: 40vh;
+        }
+    }
+    @media (max-width: 500px) {
+        img {
+            height: 30vh;
+        }
+    }
 `
+
 
 const Description = styled(motion.div)`
     margin: 3rem 0;
 `
 
-
+const CloseButton = styled.div`
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    
+    p {
+        font-size: 2rem;
+        line-height: 1;
+        cursor: pointer;
+    }
+`
 
 export default GameDetail;
+

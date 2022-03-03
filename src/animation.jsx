@@ -9,7 +9,8 @@ export const fadeIn = {
     exit: {
         opacity: 0,
         transition: { duration: 0.75 }
-    }
+    },
+
 }
 
 export const popUp = {
@@ -25,5 +26,9 @@ export const popUp = {
     exit: {
         opacity: 0,
         transition: { duration: 0.75 }
-    }
+    },
+    hover: {
+        scale: 1.05,
+        transition: { duration: 0.2 }
+    },
 }

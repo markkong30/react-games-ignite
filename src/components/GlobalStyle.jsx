@@ -54,6 +54,20 @@ const GlobalStyle = createGlobalStyle`
         font-weight: bold;
         font-family: "Montserrat", sans-serif;
     }
+
+    @media (max-width: 700px) {
+        h2 {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+        }
+
+        p {
+            font-size: 1rem;
+        }
+    }
     
 `
 

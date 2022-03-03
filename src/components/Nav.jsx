@@ -43,7 +43,10 @@ const StyledNav = styled(motion.nav)`
         padding: 0.5rem;
         border: none;
         margin-top: 1rem;
+        border-radius: 5px;
         box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+
         &:focus {
             border: 1px solid orangered;
             outline: none;
@@ -62,7 +65,7 @@ const StyledNav = styled(motion.nav)`
         &:hover {
             color: #ff7676;
             background-color: white;
-            border: 1px solid #ff7676;
+            border: 2px solid #ff7676;
 
         }
         transition: all 0.3s ease;
