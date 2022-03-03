@@ -110,6 +110,36 @@ const Navbar = styled(motion.div)`
         display: flex;
         gap: 1.5rem;
     }
+
+    li {
+        position: relative;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            height: 2px;
+            width: 100%;
+            background: linear-gradient(to left, #ff5f6d, #ffc371);
+            transform-origin: left center;
+            opacity: 0;
+            transform: scaleX(0);
+            transition: all 0.3s ease-in-out;
+
+        }
+
+        &:hover{
+            &::after {
+                opacity: 1;
+                transform: scaleX(1);
+
+            }
+            
+        }
+        
+    }
+
     
 `
 

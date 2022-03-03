@@ -10,8 +10,8 @@ const lastYear = moment().subtract(1, 'year').format('YYYY-MM-DD');
 const nextYear = moment().add(1, 'year').format('YYYY-MM-DD');
 
 const popularGames = `/games?key=${process.env.REACT_APP_GAME_API_KEY}&dates=${lastYear},${currentDate}&ordering=-rating&page_size=50`;
-const upcomingGames = `/games?key=${process.env.REACT_APP_GAME_API_KEY}&dates=${currentDate},${nextYear}&ordering=-added&page_size=10`;
-const newGames = `/games?key=${process.env.REACT_APP_GAME_API_KEY}&dates=${lastYear},${currentDate}&ordering=-released&page_size=50`;
+const upcomingGames = `/games?key=${process.env.REACT_APP_GAME_API_KEY}&dates=${currentDate},${nextYear}&ordering=-added&page_size=80`;
+const newGames = `/games?key=${process.env.REACT_APP_GAME_API_KEY}&dates=${lastYear},${currentDate}&ordering=-released&page_size=70`;
 
 export const popularGamesURL = `${base_url}${popularGames}`;
 export const upcomingGamesURL = `${base_url}${upcomingGames}`;
