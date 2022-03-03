@@ -2,8 +2,10 @@ import React from 'react';
 import './App.css';
 import Home from './pages/Home';
 import Nav from './components/Nav';
+import NewGames from './pages/NewGames';
+import UpcomingGames from './pages/UpcomingGames';
 import GlobalStyle from './components/GlobalStyle';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 function App() {
 
@@ -11,9 +13,18 @@ function App() {
     <div className="App">
       <GlobalStyle />
       <Nav />
-      <Route path={["/games/:id", "/"]}>
-        <Home />
-      </Route>
+      <Switch>
+        <Route exact path={["/games/:id", "/"]}>
+          <Home />
+        </Route>
+        <Route exact path={["/new_games/:id", "/new_games"]}>
+          <NewGames />
+        </Route>
+        <Route exact path={["/upcoming_games/:id", "/upcoming_games"]}>
+          <UpcomingGames />
+        </Route>
+      </Switch>
+
     </div>
   );
 }

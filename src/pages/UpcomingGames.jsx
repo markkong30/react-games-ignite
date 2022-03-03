@@ -1,22 +1,18 @@
 import React, { useEffect } from 'react';
 import GameDetail from '../components/GameDetail';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { loadGames } from '../redux/actions';
 import { useParams } from 'react-router-dom';
 import Game from '../components/Game';
-import { fadeIn } from '../animation';
 import SkeletonDiv from '../components/Skeleton';
+import { fadeIn } from '../animation';
 
-const Home = () => {
-    const dispatch = useDispatch();
+const UpcomingGames = () => {
     const params = useParams();
-    const { popularGames, searchedGame } = useSelector(state => state.games);
+    const { upcomingGames, searchedGame } = useSelector(state => state.games);
 
-    useEffect(() => {
-        dispatch(loadGames());
-    }, [dispatch])
 
     useEffect(() => {
         if (params.id) {
@@ -45,10 +41,10 @@ const Home = () => {
                 </div>
             }
 
-            <h2>Popular Games</h2>
-            {popularGames.length > 0 ?
+            <h2>Upcoming Games</h2>
+            {upcomingGames.length > 0 ?
                 <Games>
-                    {popularGames.map(game => (
+                    {upcomingGames.map(game => (
                         <Game key={game.id}
                             name={game.name} released={game.released} id={game.id} img={game.background_image} screenshots={{ screenshots: game.short_screenshots }}
                         />
@@ -70,7 +66,7 @@ const Home = () => {
 };
 
 const GameList = styled(motion.div)`
-    padding: 0 5rem 3rem 5rem;
+    padding: 0 5rem;
 
     h2 {
         padding: 3rem 0;
@@ -125,4 +121,4 @@ const StyledSkeleton = styled.div`
 `
 
 
-export default Home;
+export default UpcomingGames;

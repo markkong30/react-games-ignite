@@ -30,7 +30,7 @@ const GameDetail = (props) => {
         }
 
         document.body.style.overflow = 'auto';
-        history.push('/');
+        history.goBack();
     }
 
     const getPlatform = platform => {
@@ -78,7 +78,7 @@ const GameDetail = (props) => {
 
     const closeDetail = () => {
         document.body.style.overflow = 'auto';
-        history.push('/');
+        history.goBack();
     }
 
 
@@ -87,9 +87,26 @@ const GameDetail = (props) => {
             {!isLoading &&
                 <CardShadow>
                     <Detail ref={inside} layoutId={id}>
+                        <Media>
+                            <motion.img id="top-img" layoutId={`image ${id}`} src={gameDetail.background_image} alt="" />
+                            <Votes>
+                                {gameDetail.ratings.map(vote => (
+                                    <div className="vote" key={vote.id}>
+                                        <span>{vote.title}</span>
+                                        <Percent percent={vote.percent}></Percent>
+                                    </div>
+                                ))}
+
+                            </Votes>
+                        </Media>
+
                         <Stats>
                             <div className='rating'>
-                                <h3>{gameDetail.name}</h3>
+                                <h3 className='title'>{gameDetail.name}</h3>
+                                <h4>
+                                    {gameDetail.developers[0].name}
+                                    <a href={gameDetail.website} target="_blank">Official Website</a>
+                                </h4>
                                 <p>Rating:
                                     <span>
                                         {getStarRating().map((star, index) => (
@@ -99,8 +116,8 @@ const GameDetail = (props) => {
                                     </span>
                                 </p>
                                 <div className='genres'>
-                                    {gameDetail.genres.map((genre, index) => (
-                                        <Genres key={index} color={getGenresColor(genre.name)}>{genre.name}</Genres>
+                                    {gameDetail.genres.map(genre => (
+                                        <Genres key={genre.id} color={getGenresColor(genre.name)}>{genre.name}</Genres>
                                     ))}
                                 </div>
                             </div>
@@ -109,7 +126,7 @@ const GameDetail = (props) => {
                                 <h3>Platforms</h3>
                                 <Platforms>
                                     {gameDetail.platforms.map(platforms => (
-                                        <img key={platforms.platform.id}
+                                        <img className={platforms.platform.name} key={platforms.platform.id}
                                             src={getPlatform(platforms.platform.name)} alt={platforms.platform.name}
                                         />
                                     ))}
@@ -117,9 +134,6 @@ const GameDetail = (props) => {
                             </Info>
                         </Stats>
 
-                        <Media>
-                            <motion.img layoutId={`image ${id}`} src={gameDetail.background_image} alt="" />
-                        </Media>
                         <Description>
                             <p>{gameDetail.description_raw}</p>
                         </Description>
@@ -152,24 +166,9 @@ const CardShadow = styled(motion.div)`
     top: 0;
     left: 0;
     right: 0;
-    z-index: 10;
-
-`
-
-const Detail = styled(motion.div)`
-    width: 80%;
-    height: 100vh;
-    border-radius: 1rem;
-    padding: 2rem 10vw;
-    background: white;
-    position: absolute;
-    left: 10%;
-    /* right: 10%; */
+    z-index: 10;    
     overflow-y: scroll;
 
-    img {
-        width: 100%;
-    }
     &::-webkit-scrollbar {
         width: 0.5rem;
     }
@@ -181,28 +180,56 @@ const Detail = styled(motion.div)`
         background-color: white;
     }
 
-    @media (max-width: 1000px) {
-        padding: 2rem;
-    }
+`
 
-    @media (max-width: 700px) {
-        padding: 2rem;
+const Detail = styled(motion.div)`
+    margin: 0.5rem 0;
+    width: 80%;
+    min-height: 100vh;
+    border-radius: 1rem;
+    background: white;
+    position: absolute;
+    left: 10%;
+
+    img {
+        width: 100%;
+        &:last-child {
+            border-radius: 0 0 1rem 1rem;
+        }
+    }
+    
+
+    @media (max-width: 1000px) {
         left: 5%;
         width: 90%;
     }
 
-    @media (max-width: 500px) {
-        padding: 2rem;
+    @media (max-width: 550px) {
         left: 0;
         width: 100%;
-    }
+        margin: 0;
+    } 
 
 `
 
 const Stats = styled(motion.div)`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 1rem 1rem 0 0;
+
+    
+    h2, h3, h4, p, span, a {
+        color: white;
+
+    }
+
 
     span {
         margin-left: 0.6rem;
@@ -221,6 +248,27 @@ const Stats = styled(motion.div)`
 
     }
 
+    .title {
+        padding-bottom: 0;
+    }
+
+    h4 {
+        margin: 0.2rem 0 1rem 0;
+        color: #d4d4d4;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+
+        a {
+            color: #e9e9e9;
+            margin-left: 1rem;
+            letter-spacing: 0px;
+            text-decoration: underline;
+            font-style: italic;
+        }
+
+    }
+
     @media (max-width: 900px) {
         display: block;
     }
@@ -228,7 +276,7 @@ const Stats = styled(motion.div)`
 const Genres = styled.div`
     display: inline-block;
     margin: 1.5rem 0 0 0;
-    padding: 0.5rem 1rem;
+    padding: 0.3rem 0.8rem;
     background: ${props => props.color};
     color: white;
     &:first-child {
@@ -241,52 +289,101 @@ const Genres = styled.div`
 
 const Info = styled(motion.div)`
     text-align: center;
+    max-width: 65%;
+
+    @media (max-width: 900px){
+        max-width: 100%;
+
+    }
+    
 `
 
 const Platforms = styled(motion.div)`
     display: flex;
     justify-content: space-evenly;
+
     img {
-        margin-left: 3rem;
+        margin: 0 1.5rem;
+        width: 30px;
+        height: 30px;
+
+        &:not(.PC){
+            filter: brightness(3);
+        }
     }
 
     @media (max-width: 900px) {
         img {
-        margin-left: 0;
-    }
+        margin: 0;
+        }   
     }
 
+    @media (max-width: 700px) {
+        img {
+            width: 20px;
+            height: 20px;
+        }
+    }
 `
 const Media = styled(motion.div)`
-    margin-top: 3rem;
-
-    img {
+    height: 70vh;
+    position: relative;
+    
+    #top-img {
         width: 100%;
-        height: 60vh;
+        height: 100%;
         object-fit: cover;
+        border-radius: 1rem 1rem 0 0;
     }
-
-    @media (max-width: 800px) {
-        img {
-            height: 50vh;
-        }
-    }
-
-    @media (max-width: 650px) {
-        img {
-            height: 40vh;
-        }
-    }
-    @media (max-width: 500px) {
-        img {
-            height: 30vh;
-        }
-    }
+    
 `
 
+const Votes = styled.div`
+    position: absolute;
+    left: 2rem;
+    bottom: 2rem;
+    width: 35%;
+    height: 35%;
+    border: 1.5px solid #d6d6d6;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* padding: 3rem; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+
+    .vote {
+        display: flex;
+        align-items: center;
+        margin: 0 2rem;
+    }
+    span {
+        display: inline-block;
+        color: white;
+        flex-basis: 50%;
+        margin-right: 1rem;
+    }
+
+    @media (max-width: 1200px) {
+        width: 50%;
+    }
+    
+`
+const Percent = styled.div`
+        background-color: white;
+        height: 10px;
+        width: calc(${props => props.percent}% / 2);
+`
 
 const Description = styled(motion.div)`
     margin: 3rem 0;
+    padding: 0 5rem;
+    
+    @media (max-width: 700px) {
+        padding: 0 2rem;
+
+    }
 `
 
 const CloseButton = styled.div`
@@ -298,6 +395,10 @@ const CloseButton = styled.div`
         font-size: 2rem;
         line-height: 1;
         cursor: pointer;
+    }
+
+    @media (min-width: 550px) {
+        display: none;
     }
 `
 

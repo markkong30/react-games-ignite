@@ -5,6 +5,7 @@ import logo from "../img/logo.svg";
 import { gameSearch } from '../redux/actions';
 import { useDispatch } from 'react-redux';
 import { fadeIn } from '../animation';
+import { Link } from 'react-router-dom';
 
 const Nav = () => {
     const dispatch = useDispatch();
@@ -19,22 +20,41 @@ const Nav = () => {
 
     return (
         <StyledNav variants={fadeIn} initial="hidden" animate="show">
-            <Logo onClick={() => dispatch({ type: "CLEAR_SEARCHED" })}>
-                <img src={logo} alt="" />
-                <h1>Ignite</h1>
-            </Logo>
-            <form className="search" onSubmit={submitSearch}>
-                <input onChange={(e) => setSearchInput(e.target.value)} type="text" value={searchInput} />
-                <button>search</button>
-            </form>
+            <Navbar>
+                <Link to="/">
+                    <Logo onClick={() => dispatch({ type: "CLEAR_SEARCHED" })}>
+                        <img src={logo} alt="" />
+                        <h1>Ignite</h1>
+                    </Logo>
+                </Link>
+
+                <ul>
+                    <Link to="/">
+                        <li>Popular Games</li>
+                    </Link>
+                    <Link to="/new_games">
+                        <li>New Games</li>
+                    </Link>
+                    <Link to="/upcoming_games">
+                        <li>Upcoming Games</li>
+                    </Link>
+                </ul>
+            </Navbar>
+            <Search>
+                <form className="search" onSubmit={submitSearch}>
+                    <input onChange={(e) => setSearchInput(e.target.value)} type="text" value={searchInput} />
+                    <button>search</button>
+                </form>
+            </Search>
+
         </StyledNav>
     );
 };
 
 const StyledNav = styled(motion.nav)`
-    padding: 3rem;
     text-align: center;
-    width: 100%;
+    width: 100%;    
+
 
     input {
         width: 30%;
@@ -72,17 +92,46 @@ const StyledNav = styled(motion.nav)`
     }
 `
 
+const Navbar = styled(motion.div)`
+    display: flex;
+    position: fixed;
+    z-index: 10;
+    background-color: white;
+    top: 0;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    width: 100%;
+    padding: 0 2rem;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+
+    ul {
+        list-style: none;
+        display: flex;
+        gap: 1.5rem;
+    }
+    
+`
+
 const Logo = styled(motion.div)`
     display: flex;
-    margin-bottom: 1rem;
-    justify-content: center;
     cursor: pointer;
+    color: #d35050;
+
+    
 
     img {
         margin-right: 0.5rem;
         display: inline-block;
+
     }
     
 `
+
+const Search = styled(motion.div)`
+    padding: 8rem 2rem 2rem 2rem;
+`
+
+
 
 export default Nav;

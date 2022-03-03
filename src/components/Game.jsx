@@ -4,15 +4,16 @@ import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadDetail } from '../redux/actions';
 import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { popUp } from '../animation';
 
 const Game = (props) => {
     const { name, released, img, id, screenshots } = props;
     const dispatch = useDispatch();
     const params = useParams();
+    const location = useLocation();
+    const path = location.pathname.split('/')[1];
     const stringPathId = id.toString();
-
     useEffect(() => {
         if (params.id == id) {
             loadDetailHandler();
@@ -24,11 +25,9 @@ const Game = (props) => {
     }
 
     return (
-        <StyledGame variants={popUp} initial="hidden" animate="show" whileHover="hover"
+        <StyledGame variants={popUp} initial="hidden" animate="show" whileHover="hover" whileTap="tap"
             layoutId={stringPathId}>
-
-
-            <Link to={`/games/${id}`}>
+            <Link to={`/${path ? path : "games"}/${id}`}>
                 <h3>{name}</h3>
                 <p>{released}</p>
                 <motion.img layoutId={`image ${stringPathId}`} src={img} alt="" />

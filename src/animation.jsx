@@ -31,4 +31,8 @@ export const popUp = {
         scale: 1.05,
         transition: { duration: 0.2 }
     },
+    tap: {
+        scale: 0.95,
+        transition: { duration: 0.2 }
+    }
 }
