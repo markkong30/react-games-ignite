@@ -14,14 +14,17 @@ const NewGames = () => {
     const dispatch = useDispatch();
     const params = useParams();
     const { newGames, searchedGame } = useSelector(state => state.games);
+    const [currentGames, setCurrentGames] = useState(null);
 
     useEffect(() => {
-        if (params.id) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'auto';
-        }
-    }, [params])
+        dispatch(loadGames());
+    }, [dispatch])
+
+    useEffect(() => {
+        const games = newGames.slice(0, 10);
+        setCurrentGames(games);
+
+    }, [newGames])
 
 
     return (
@@ -43,9 +46,9 @@ const NewGames = () => {
             }
 
             <h2>New Games</h2>
-            {newGames.length > 0 ?
+            {currentGames ?
                 <Games>
-                    {newGames.map(game => (
+                    {currentGames.map(game => (
                         <Game key={game.id}
                             name={game.name} released={game.released} id={game.id} img={game.background_image} screenshots={{ screenshots: game.short_screenshots }}
                         />
@@ -60,7 +63,7 @@ const NewGames = () => {
                 </Games>
             }
 
-            <Pagination games={newGames} />
+            <Pagination games={newGames} setCurrentGames={setCurrentGames} />
 
 
         </GameList>
@@ -69,6 +72,7 @@ const NewGames = () => {
 
 const GameList = styled(motion.div)`
     padding: 0 5rem 3rem 5rem;
+    margin-top: 70px;
 
     h2 {
         padding: 3rem 0;

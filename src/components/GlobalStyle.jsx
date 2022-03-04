@@ -9,6 +9,8 @@ const GlobalStyle = createGlobalStyle`
     }
 
     html {
+        /* overflow-x: hidden; */
+
         &::-webkit-scrollbar {
             width: 0.5rem;
         }

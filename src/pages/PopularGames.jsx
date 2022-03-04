@@ -10,10 +10,10 @@ import { fadeIn } from '../animation';
 import SkeletonDiv from '../components/Skeleton';
 import Pagination from '../components/Pagination';
 
-const UpcomingGames = () => {
+const PopularGames = () => {
     const dispatch = useDispatch();
     const params = useParams();
-    const { upcomingGames, searchedGame } = useSelector(state => state.games);
+    const { popularGames, searchedGame } = useSelector(state => state.games);
     const [currentGames, setCurrentGames] = useState(null);
 
     useEffect(() => {
@@ -21,10 +21,9 @@ const UpcomingGames = () => {
     }, [dispatch])
 
     useEffect(() => {
-        const games = upcomingGames.slice(0, 10);
+        const games = popularGames.slice(0, 10);
         setCurrentGames(games);
-
-    }, [upcomingGames])
+    }, [popularGames])
 
 
     return (
@@ -32,6 +31,7 @@ const UpcomingGames = () => {
             <AnimatePresence>
                 {params.id && <GameDetail id={params.id} />}
             </AnimatePresence>
+
             {searchedGame.length > 0 &&
                 <div className="searched">
                     <h2>Searched Games</h2>
@@ -45,7 +45,7 @@ const UpcomingGames = () => {
                 </div>
             }
 
-            <h2>Upcoming Games</h2>
+            <h2>Popular Games</h2>
             {currentGames ?
                 <Games>
                     {currentGames.map(game => (
@@ -63,8 +63,7 @@ const UpcomingGames = () => {
                 </Games>
             }
 
-            <Pagination games={upcomingGames} setCurrentGames={setCurrentGames} />
-
+            <Pagination games={popularGames} setCurrentGames={setCurrentGames} />
 
         </GameList>
     );
@@ -98,4 +97,4 @@ const Games = styled(motion.div)`
 `
 
 
-export default UpcomingGames;
+export default PopularGames;

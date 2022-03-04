@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import GameDetail from '../components/GameDetail';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -9,23 +9,18 @@ import Game from '../components/Game';
 import { fadeIn } from '../animation';
 import SkeletonDiv from '../components/Skeleton';
 import Pagination from '../components/Pagination';
+import ImgSlider from '../components/ImgSlider';
+import Search from '../components/Search';
 
 const Home = () => {
     const dispatch = useDispatch();
     const params = useParams();
     const { popularGames, searchedGame } = useSelector(state => state.games);
+    const [currentGames, setCurrentGames] = useState(null);
 
     useEffect(() => {
         dispatch(loadGames());
     }, [dispatch])
-
-    useEffect(() => {
-        if (params.id) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'auto';
-        }
-    }, [params])
 
 
     return (
@@ -33,6 +28,10 @@ const Home = () => {
             <AnimatePresence>
                 {params.id && <GameDetail id={params.id} />}
             </AnimatePresence>
+
+            <ImgSlider />
+            <Search />
+
             {searchedGame.length > 0 &&
                 <div className="searched">
                     <h2>Searched Games</h2>
@@ -64,7 +63,7 @@ const Home = () => {
                 </Games>
             }
 
-            <Pagination games={popularGames} />
+            <Pagination games={popularGames} setCurrentGames={setCurrentGames} />
 
 
         </GameList>
@@ -73,6 +72,7 @@ const Home = () => {
 
 const GameList = styled(motion.div)`
     padding: 0 5rem 3rem 5rem;
+    overflow-x: hidden;
 
     h2 {
         padding: 3rem 0;

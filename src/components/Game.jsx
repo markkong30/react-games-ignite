@@ -14,15 +14,15 @@ const Game = (props) => {
     const location = useLocation();
     const path = location.pathname.split('/')[1];
     const stringPathId = id.toString();
-    useEffect(() => {
-        if (params.id == id) {
-            loadDetailHandler();
-        }
-    }, [params.id])
+    // useEffect(() => {
+    //     if (params.id == id) {
+    //         loadDetailHandler();
+    //     }
+    // }, [params.id])
 
-    const loadDetailHandler = () => {
-        dispatch(loadDetail(id, screenshots))
-    }
+    // const loadDetailHandler = () => {
+    //     dispatch(loadDetail(id, screenshots))
+    // }
 
     return (
         <StyledGame variants={popUp} initial="hidden" animate="show" whileHover="hover" whileTap="tap"

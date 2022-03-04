@@ -1,26 +1,33 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import playstation from "../img/playstation.svg";
-import steam from "../img/steam.svg";
-import xbox from "../img/xbox.svg";
-import nintendo from "../img/nintendo.svg";
-import apple from "../img/apple.svg";
-import gamepad from "../img/gamepad.svg";
 import starEmpty from "../img/star-empty.png";
 import starFull from "../img/star-full.png";
+import { getGenresColor, getPlatform } from '../utils';
+import { loadDetail } from '../redux/actions';
 
 
 const GameDetail = (props) => {
     const { id } = props;
-    const { gameDetail, isLoading } = useSelector(state => state.gameDetail);
+    const { gameDetail, isLoading, screenshots } = useSelector(state => state.gameDetail);
     const inside = useRef();
     const history = useHistory();
+    const dispatch = useDispatch();
+
     useEffect(() => {
+        dispatch(loadDetail(id))
         document.body.addEventListener("mousedown", checkClickOutside)
+        console.log(id)
+    }, [id])
+
+    useEffect(() => {
+        document.body.style.overflowY = 'hidden';
+        return () => document.body.style.overflowY = 'auto';
+
     }, [])
+
 
     const checkClickOutside = (e) => {
         document.body.removeEventListener("mousedown", checkClickOutside);
@@ -33,47 +40,13 @@ const GameDetail = (props) => {
         history.goBack();
     }
 
-    const getPlatform = platform => {
-        switch (platform) {
-            case "PlayStation 4":
-                return playstation;
-            case "Xbox One":
-                return xbox;
-            case "PC":
-                return steam;
-            case "Nintendo Switch":
-                return nintendo;
-            case "iOS":
-                return apple;
-            default:
-                return gamepad;
-        }
-    }
+
 
     const getStarRating = () => {
         const fullStars = Math.round(gameDetail.rating);
         const emptyStars = 5 - fullStars;
         const stars = [...new Array(fullStars).fill('full'), ...new Array(emptyStars).fill('empty')];
         return stars;
-    }
-
-    const getGenresColor = (genre) => {
-        switch (genre) {
-            case "Action":
-                return "#BB2D3E";
-            case "RPG":
-                return "#4FC52A";
-            case "Adventure":
-                return "#015CC5";
-            case "Shooter":
-                return "#FFCD3A";
-            case "Arcade":
-                return "#8955FF";
-            case "Puzzle":
-                return "#28ABE2";
-            default:
-                return "#5B5B5B";
-        }
     }
 
     const closeDetail = () => {
@@ -138,7 +111,7 @@ const GameDetail = (props) => {
                             <p>{gameDetail.description_raw}</p>
                         </Description>
                         <div className="gallery">
-                            {gameDetail.screenshots.map((screenshot, index) => {
+                            {screenshots.results.map((screenshot, index) => {
                                 if (index > 0) {
                                     return (
                                         <img key={screenshot.id} src={screenshot.image} alt="" />
@@ -335,7 +308,10 @@ const Media = styled(motion.div)`
         object-fit: cover;
         border-radius: 1rem 1rem 0 0;
     }
-    
+
+    @media (max-width: 900px) {
+        height: 100vh;
+    }
 `
 
 const Votes = styled.div`
@@ -368,6 +344,10 @@ const Votes = styled.div`
     @media (max-width: 1200px) {
         width: 50%;
     }
+
+    @media (max-width: 800px) {
+        width: 70%;
+    }
     
 `
 const Percent = styled.div`
@@ -382,6 +362,15 @@ const Description = styled(motion.div)`
     
     @media (max-width: 700px) {
         padding: 0 2rem;
+        p {
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 550px) {
+        p {
+            font-size: 0.8rem;
+        }
 
     }
 `
@@ -395,6 +384,7 @@ const CloseButton = styled.div`
         font-size: 2rem;
         line-height: 1;
         cursor: pointer;
+        color: #ebebeb;
     }
 
     @media (min-width: 550px) {

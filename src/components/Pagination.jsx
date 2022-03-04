@@ -1,19 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import styled from 'styled-components';
 
-const Pagination = ({ games }) => {
+const Pagination = ({ games, setCurrentGames }) => {
     const [pageNumber, setPageNumber] = useState(0);
     const gamesPerPage = 10;
-    const gamesVisited = pageNumber * gamesPerPage;
-
-    const displayGames = games.slice(gamesVisited, gamesVisited + gamesPerPage);
     const pageCount = Math.ceil(games.length / gamesPerPage);
     const pageChange = ({ selected }) => {
         setPageNumber(selected);
+    }
+
+    useEffect(() => {
+        updateGames();
+    }, [pageNumber])
+
+    const updateGames = () => {
+        const gamesVisited = pageNumber * gamesPerPage;
+        const displayGames = games.slice(gamesVisited, gamesVisited + gamesPerPage);
+        setCurrentGames(displayGames)
         window.scrollTo({
-            top: 150
+            top: 0
         })
+
     }
 
     return (
