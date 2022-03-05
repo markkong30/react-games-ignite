@@ -44,3 +44,12 @@ export const gameSearch = game_name => async (dispatch) => {
         }
     })
 }
+
+export const randomGames = (games) => async (dispatch) => {
+    dispatch({
+        type: "SAVE_SLIDER",
+        payload: {
+            randomGames: games,
+        }
+    })
+}

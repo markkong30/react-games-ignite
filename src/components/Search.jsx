@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import logo from "../img/logo.svg";
 import { gameSearch } from '../redux/actions';
 import { useDispatch } from 'react-redux';
-import { fadeIn } from '../animation';
+import { fadeInSearch } from '../animation';
 
 
 const Search = () => {
@@ -18,7 +17,7 @@ const Search = () => {
     }
 
     return (
-        <StyledSearch>
+        <StyledSearch variants={fadeInSearch} initial="hidden" animate="show" >
             <form className="search" onSubmit={submitSearch}>
                 <input onChange={(e) => setSearchInput(e.target.value)} type="text" value={searchInput} />
                 <button>search</button>
@@ -29,6 +28,7 @@ const Search = () => {
 
 const StyledSearch = styled(motion.div)`
     padding-top: 5rem;
+
 
     form {
         width: 100%;
@@ -70,6 +70,21 @@ const StyledSearch = styled(motion.div)`
 
         }
         transition: all 0.3s ease;
+    }
+
+    @media (max-width: 550px) {
+        input {
+            width: 60%;
+        }
+
+        button {
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+        }
+
+        input {
+            height: 2rem;
+        }
     }
 `
 

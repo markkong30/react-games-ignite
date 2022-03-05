@@ -14,10 +14,12 @@ const Pagination = ({ games, setCurrentGames }) => {
         updateGames();
     }, [pageNumber])
 
+
     const updateGames = () => {
         const gamesVisited = pageNumber * gamesPerPage;
         const displayGames = games.slice(gamesVisited, gamesVisited + gamesPerPage);
         setCurrentGames(displayGames)
+        console.log(displayGames)
         window.scrollTo({
             top: 0
         })
@@ -25,7 +27,7 @@ const Pagination = ({ games, setCurrentGames }) => {
     }
 
     return (
-        <Paginate>
+        <Paginate display={games.length ? "block" : "none"}>
             <ReactPaginate
                 previousLabel="Previous"
                 nextLabel="Next"
@@ -47,6 +49,7 @@ const Paginate = styled.div`
     padding-top: 5rem;
     margin: 0 auto;
     position: relative;
+    display: ${props => props.display};
 
     .paginationBtns {
         display: flex;

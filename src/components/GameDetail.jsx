@@ -19,7 +19,7 @@ const GameDetail = (props) => {
     useEffect(() => {
         dispatch(loadDetail(id))
         document.body.addEventListener("mousedown", checkClickOutside)
-        console.log(id)
+        console.log(typeof id)
     }, [id])
 
     useEffect(() => {
@@ -27,7 +27,6 @@ const GameDetail = (props) => {
         return () => document.body.style.overflowY = 'auto';
 
     }, [])
-
 
     const checkClickOutside = (e) => {
         document.body.removeEventListener("mousedown", checkClickOutside);

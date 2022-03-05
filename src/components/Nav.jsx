@@ -10,12 +10,17 @@ import { scrollTop } from '../utils';
 const Nav = () => {
     const dispatch = useDispatch();
 
+    const homeHandler = () => {
+        dispatch({ type: "CLEAR_SEARCHED" });
+
+        scrollTop();
+    }
 
     return (
         <StyledNav variants={fadeIn} initial="hidden" animate="show">
             <Navbar>
                 <Link to="/">
-                    <Logo onClick={() => dispatch({ type: "CLEAR_SEARCHED" })}>
+                    <Logo onClick={homeHandler}>
                         <img src={logo} alt="" />
                         <h1>Ignite</h1>
                     </Logo>

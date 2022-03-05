@@ -13,6 +13,10 @@ const initialState_Detail = {
     isLoading: true,
 }
 
+const initialState_RandomGames = {
+    randomGames: null,
+}
+
 const gamesReducer = (state = initialState, action) => {
     switch (action.type) {
         case "FETCH_GAMES":
@@ -56,6 +60,23 @@ const detailReducer = (state = initialState_Detail, action) => {
     }
 }
 
+const randomGamesReducer = (state = initialState_RandomGames, action) => {
+    switch (action.type) {
+        case "SAVE_SLIDER":
+            return {
+                ...state,
+                randomGames: action.payload.randomGames,
+            }
+        case "CLEAR_SLIDER":
+            return {
+                ...state,
+                randomGames: null,
+            }
+        default:
+            return { ...state }
+    }
+}
+
 
 
 
@@ -63,4 +84,5 @@ const detailReducer = (state = initialState_Detail, action) => {
 export const rootReducer = combineReducers({
     games: gamesReducer,
     gameDetail: detailReducer,
+    randomGames: randomGamesReducer,
 })
